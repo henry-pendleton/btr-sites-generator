@@ -1,0 +1,75 @@
+<footer class="footer">
+  <div class="footer-container">
+    <!-- Logo & Description -->
+    <div class="footer-brand">
+      {% if site.branding.logoDark %}
+        <img src="{{ site.branding.logoDark }}" alt="{{ site.name }}" class="footer-logo">
+      {% elif site.branding.logo %}
+        <img src="{{ site.branding.logo }}" alt="{{ site.name }}" class="footer-logo">
+      {% else %}
+        <span class="footer-logo-text">{{ site.name }}</span>
+      {% endif %}
+
+      {% if site.description %}
+        <p class="footer-description">{{ site.description }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Contact Info -->
+    <div class="footer-contact">
+      <h4 class="footer-heading">Contact</h4>
+
+      {% if site.contact.address %}
+        <p class="footer-address">
+          {{ site.contact.address }}<br>
+          {{ site.contact.city }}, {{ site.contact.state }} {{ site.contact.zip }}
+        </p>
+      {% endif %}
+
+      {% if site.contact.phone %}
+        <p class="footer-phone">
+          <a href="tel:{{ site.contact.phone | replace('(', '') | replace(')', '') | replace('-', '') | replace(' ', '') }}">
+            {{ site.contact.phone | formatPhone }}
+          </a>
+        </p>
+      {% endif %}
+
+      {% if site.contact.email %}
+        <p class="footer-email">
+          <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
+        </p>
+      {% endif %}
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-links">
+      <h4 class="footer-heading">Quick Links</h4>
+      <ul>
+        {% for link in site.nav %}
+          <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Office Hours -->
+    {% if site.officeHours %}
+    <div class="footer-hours">
+      <h4 class="footer-heading">Office Hours</h4>
+      <ul>
+        {% for hours in site.officeHours %}
+          <li><strong>{{ hours.days }}:</strong> {{ hours.hours }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <p>&copy; 2026 {{ site.name }}. All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+    </div>
+  </div>
+</footer>

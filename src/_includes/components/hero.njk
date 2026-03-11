@@ -1,0 +1,24 @@
+<section class="hero" {% if heroImage %}style="background-image: url('{{ heroImage }}');"{% endif %}>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    {% if eyebrow %}
+      <span class="hero-eyebrow">{{ eyebrow }}</span>
+    {% endif %}
+
+    <h1 class="hero-headline">{{ headline }}</h1>
+
+    {% if subheadline %}
+      <p class="hero-subheadline">{{ subheadline }}</p>
+    {% endif %}
+
+    {% if buttons %}
+      <div class="hero-buttons">
+        {% for btn in buttons %}
+          <a href="{{ btn.href }}" class="hero-btn {% if btn.variant == 'outline' %}hero-btn-outline{% else %}hero-btn-primary{% endif %}">
+            {{ btn.label }}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>

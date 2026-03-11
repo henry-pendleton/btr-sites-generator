@@ -1,0 +1,53 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: allSites
+  size: 1
+  alias: site
+permalink: "{{ site.slug }}/floorplans/index.html"
+title: Floor Plans
+---
+
+<section class="page-header">
+  <div class="container">
+    <h1 class="page-title">{{ site.content.floorplans.title | default('Our Floor Plans') }}</h1>
+    <p class="page-description">{{ site.content.floorplans.description | default('Explore our spacious floor plans and find your perfect home.') }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {# Engrain Floor Plans - populated via JavaScript #}
+    {% if site.engrain.communityId %}
+      <div id="floorplans-container" class="floorplans-grid">
+        <p class="loading">Loading floor plans...</p>
+      </div>
+    {% else %}
+      {# Static floor plans from content #}
+      {% if site.content.floorplans.items %}
+        <div class="floorplans-grid">
+          {% for plan in site.content.floorplans.items %}
+            <div class="floorplan-card">
+              {% if plan.image %}
+                <img src="{{ plan.image }}" alt="{{ plan.name }}" class="floorplan-image">
+              {% endif %}
+              <div class="floorplan-details">
+                <h3 class="floorplan-name">{{ plan.name }}</h3>
+                <div class="floorplan-specs">
+                  <span>{{ plan.beds }} Bed</span>
+                  <span>{{ plan.baths }} Bath</span>
+                  <span>{{ plan.sqft }} sq ft</span>
+                </div>
+                {% if plan.price %}
+                  <p class="floorplan-price">From ${{ plan.price }}/mo</p>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-center">Floor plan information coming soon.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+</section>

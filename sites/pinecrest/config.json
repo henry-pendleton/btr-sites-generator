@@ -1,0 +1,63 @@
+{
+  "name": "Pinecrest Townhomes",
+  "slug": "pinecrest",
+  "domain": "pinecrest.vercel.app",
+  "description": "Modern townhome living in the heart of Atlanta",
+
+  "branding": {
+    "primaryColor": "#2a5d4f",
+    "primaryDark": "#1e4439",
+    "secondaryColor": "#d4a574",
+    "backgroundColor": "#ffffff",
+    "textColor": "#1f2937",
+    "logo": "/sites/pinecrest/assets/logo.svg",
+    "logoDark": "/sites/pinecrest/assets/logo-dark.svg",
+    "favicon": "/sites/pinecrest/assets/favicon.ico"
+  },
+
+  "contact": {
+    "phone": "(404) 555-1234",
+    "email": "leasing@pinecrest.com",
+    "address": "123 Pine Street",
+    "city": "Atlanta",
+    "state": "GA",
+    "zip": "30301",
+    "latitude": 33.7490,
+    "longitude": -84.3880,
+    "mapUrl": "https://maps.google.com/?q=123+Pine+Street+Atlanta+GA"
+  },
+
+  "engrain": {
+    "communityId": "12345",
+    "apiKey": ""
+  },
+
+  "nav": [
+    { "label": "Floor Plans", "href": "/pinecrest/floorplans" },
+    { "label": "Amenities", "href": "/pinecrest/amenities" },
+    { "label": "Neighborhood", "href": "/pinecrest/neighborhood" },
+    { "label": "Contact", "href": "/pinecrest/contact" }
+  ],
+
+  "cta": {
+    "label": "Apply Now",
+    "href": "/pinecrest/apply"
+  },
+
+  "officeHours": [
+    { "days": "Mon-Fri", "hours": "9:00 AM - 6:00 PM" },
+    { "days": "Saturday", "hours": "10:00 AM - 5:00 PM" },
+    { "days": "Sunday", "hours": "Closed" }
+  ],
+
+  "seo": {
+    "title": "Pinecrest Townhomes | Modern Living in Atlanta",
+    "description": "Discover modern townhome living at Pinecrest. Spacious floor plans, premium amenities, and a prime Atlanta location. Schedule your tour today!",
+    "keywords": ["atlanta townhomes", "townhomes for rent", "pinecrest atlanta"]
+  },
+
+  "social": {
+    "facebook": "https://facebook.com/pinecrest",
+    "instagram": "https://instagram.com/pinecrest"
+  }
+}

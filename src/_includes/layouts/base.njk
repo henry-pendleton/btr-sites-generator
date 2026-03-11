@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }} | {{ site.name }}</title>
+  <meta name="description" content="{{ description | default(site.seo.description) }}">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ title }} | {{ site.name }}">
+  <meta property="og:description" content="{{ description | default(site.seo.description) }}">
+  <meta property="og:type" content="website">
+  {% if site.branding.ogImage %}
+  <meta property="og:image" content="{{ site.branding.ogImage }}">
+  {% endif %}
+
+  <!-- Favicon -->
+  {% if site.branding.favicon %}
+  <link rel="icon" href="{{ site.branding.favicon }}">
+  {% endif %}
+
+  <!-- Dynamic Theme Colors -->
+  <style>
+    :root {
+      --color-primary: {{ site.branding.primaryColor | default('#2a5d4f') }};
+      --color-primary-dark: {{ site.branding.primaryDark | default('#1e4439') }};
+      --color-secondary: {{ site.branding.secondaryColor | default('#d4a574') }};
+      --color-background: {{ site.branding.backgroundColor | default('#ffffff') }};
+      --color-text: {{ site.branding.textColor | default('#1f2937') }};
+    }
+  </style>
+
+  <!-- Base Styles -->
+  <link rel="stylesheet" href="/assets/styles/main.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen flex flex-col">
+  {% include "components/nav.njk" %}
+
+  <main class="flex-1">
+    {{ content | safe }}
+  </main>
+
+  {% include "components/footer.njk" %}
+
+  <!-- Engrain Integration (client-side) -->
+  {% if site.engrain.communityId %}
+  <script>
+    window.ENGRAIN_CONFIG = {
+      communityId: "{{ site.engrain.communityId }}",
+      apiKey: "{{ site.engrain.apiKey | default('') }}"
+    };
+  </script>
+  <script src="/assets/scripts/engrain.js" defer></script>
+  {% endif %}
+</body>
+</html>

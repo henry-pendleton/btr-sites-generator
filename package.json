@@ -1,0 +1,20 @@
+{
+  "name": "btr-sites-generator",
+  "version": "1.0.0",
+  "description": "Static site generator for BTR marketing sites - Claude-powered builds from GitHub Issues",
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "eleventy",
+    "build:site": "SITE_SLUG=$npm_config_site eleventy",
+    "clean": "rm -rf _site"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy-img": "^4.0.2"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  }
+}

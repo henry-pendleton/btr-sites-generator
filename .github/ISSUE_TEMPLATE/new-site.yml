@@ -1,0 +1,207 @@
+name: "🏠 New Site Request"
+description: Request a new BTR marketing site
+title: "[New Site] "
+labels: ["new-site"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## New Site Request
+        Fill out the form below to request a new BTR marketing site. Once submitted, add the `claude-build` label to trigger the automated build.
+
+  - type: input
+    id: site-name
+    attributes:
+      label: Site Name
+      description: The display name of the property
+      placeholder: "Pinecrest Townhomes"
+    validations:
+      required: true
+
+  - type: input
+    id: site-slug
+    attributes:
+      label: Site Slug
+      description: URL-friendly identifier (lowercase, no spaces, hyphens OK)
+      placeholder: "pinecrest"
+    validations:
+      required: true
+
+  - type: input
+    id: primary-color
+    attributes:
+      label: Primary Color
+      description: Main brand color in hex format
+      placeholder: "#2a5d4f"
+    validations:
+      required: true
+
+  - type: input
+    id: secondary-color
+    attributes:
+      label: Secondary Color
+      description: Accent color in hex format (optional)
+      placeholder: "#d4a574"
+    validations:
+      required: false
+
+  - type: input
+    id: phone
+    attributes:
+      label: Phone Number
+      description: Leasing office phone number
+      placeholder: "(404) 555-1234"
+    validations:
+      required: true
+
+  - type: input
+    id: email
+    attributes:
+      label: Email
+      description: Leasing office email
+      placeholder: "leasing@pinecrest.com"
+    validations:
+      required: true
+
+  - type: input
+    id: address
+    attributes:
+      label: Street Address
+      placeholder: "123 Pine Street"
+    validations:
+      required: true
+
+  - type: input
+    id: city
+    attributes:
+      label: City
+      placeholder: "Atlanta"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: state
+    attributes:
+      label: State
+      options:
+        - AL
+        - AK
+        - AZ
+        - AR
+        - CA
+        - CO
+        - CT
+        - DE
+        - FL
+        - GA
+        - HI
+        - ID
+        - IL
+        - IN
+        - IA
+        - KS
+        - KY
+        - LA
+        - ME
+        - MD
+        - MA
+        - MI
+        - MN
+        - MS
+        - MO
+        - MT
+        - NE
+        - NV
+        - NH
+        - NJ
+        - NM
+        - NY
+        - NC
+        - ND
+        - OH
+        - OK
+        - OR
+        - PA
+        - RI
+        - SC
+        - SD
+        - TN
+        - TX
+        - UT
+        - VT
+        - VA
+        - WA
+        - WV
+        - WI
+        - WY
+    validations:
+      required: true
+
+  - type: input
+    id: zip
+    attributes:
+      label: ZIP Code
+      placeholder: "30301"
+    validations:
+      required: true
+
+  - type: input
+    id: engrain-id
+    attributes:
+      label: Engrain Community ID
+      description: For floor plan and availability integration (optional)
+      placeholder: "12345"
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Property Description
+      description: Brief description of the property for the homepage
+      placeholder: "Modern townhome living in the heart of Atlanta..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: amenities
+    attributes:
+      label: Key Amenities
+      description: List the main amenities, one per line
+      placeholder: |
+        Fitness Center
+        Pool & Sundeck
+        Dog Park
+        Business Center
+    validations:
+      required: false
+
+  - type: textarea
+    id: office-hours
+    attributes:
+      label: Office Hours
+      description: Leasing office hours
+      placeholder: |
+        Mon-Fri: 9:00 AM - 6:00 PM
+        Saturday: 10:00 AM - 5:00 PM
+        Sunday: Closed
+    validations:
+      required: false
+
+  - type: input
+    id: logo-url
+    attributes:
+      label: Logo URL
+      description: URL to the logo image (will be downloaded and stored)
+      placeholder: "https://example.com/logo.svg"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Ready to Build
+      description: Confirm that all required information is correct
+      options:
+        - label: I have reviewed the information above and it is accurate
+          required: true

@@ -1,0 +1,121 @@
+name: Claude Site Builder
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  build-site:
+    # Only run when 'claude-build' label is added
+    if: github.event.label.name == 'claude-build'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Parse Issue and Build Site
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            A new site build has been requested via GitHub Issue #${{ github.event.issue.number }}.
+
+            ## Issue Title
+            ${{ github.event.issue.title }}
+
+            ## Issue Body
+            ${{ github.event.issue.body }}
+
+            ## Your Task
+
+            1. Parse the issue body to extract site configuration:
+               - Site Name
+               - Site Slug (lowercase, no spaces, used for folder name and URLs)
+               - Primary Color (hex)
+               - Secondary Color (hex, optional)
+               - Phone Number
+               - Email
+               - Address, City, State, ZIP
+               - Engrain Community ID (optional)
+               - Any other provided fields
+
+            2. Create the site folder and files:
+               - Create `sites/{slug}/config.json` with the site configuration
+               - Create `sites/{slug}/content.json` with default content (hero, about, amenities, etc.)
+               - Use the example-site as a reference for the structure
+
+            3. IMPORTANT: Only create/modify files in the `sites/` directory. Never modify templates or other files.
+
+            4. After creating the files, commit the changes with message: "Add new site: {site name}"
+
+            5. Comment on the issue with the result:
+               - If successful: List the files created and the site slug
+               - If failed: Explain what information is missing or what went wrong
+
+          allowed_tools: "Read,Write,Bash(git add *),Bash(git commit *),Bash(git push *)"
+          max_turns: 10
+
+      - name: Build all sites
+        run: npm run build
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        if: success()
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: "--prod"
+
+      - name: Update Issue with Deploy URL
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Site Deployed! 🎉\n\nYour site has been built and deployed.\n\n**Preview URL:** Check your Vercel dashboard for the deployment URL.\n\n**Next Steps:**\n1. Review the site at the preview URL\n2. Configure a custom domain if needed\n3. Close this issue when complete`
+            })
+
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['deployed']
+            })
+
+      - name: Handle Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Build Failed ❌\n\nThe site build encountered an error. Please check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.\n\nCommon issues:\n- Missing required fields in the issue\n- Invalid color format (use hex like #2a5d4f)\n- Slug already exists`
+            })
+
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['build-failed']
+            })

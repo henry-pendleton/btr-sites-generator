@@ -1,0 +1,46 @@
+{
+  "hero": {
+    "eyebrow": "NOW LEASING",
+    "headline": "Welcome to Pinecrest",
+    "subheadline": "Modern townhome living starting at $1,850/month",
+    "heroImage": "/sites/example-site/assets/hero.jpg",
+    "buttons": [
+      { "label": "Schedule a Tour", "href": "/pinecrest/contact", "variant": "primary" },
+      { "label": "View Floor Plans", "href": "/pinecrest/floorplans", "variant": "outline" }
+    ]
+  },
+
+  "about": {
+    "title": "Live Your Best Life",
+    "description": "Pinecrest Townhomes offers the perfect blend of comfort, convenience, and community. Our spacious townhomes feature modern finishes, private outdoor spaces, and access to resort-style amenities. Located in the heart of Atlanta, you'll enjoy easy access to dining, shopping, and entertainment."
+  },
+
+  "amenities": {
+    "title": "Premium Amenities",
+    "description": "Experience resort-style living with our extensive amenity package.",
+    "items": [
+      { "name": "Fitness Center", "icon": "💪", "description": "State-of-the-art equipment" },
+      { "name": "Pool & Sundeck", "icon": "🏊", "description": "Resort-style pool area" },
+      { "name": "Dog Park", "icon": "🐕", "description": "Off-leash play area" },
+      { "name": "Business Center", "icon": "💼", "description": "Work from home amenities" },
+      { "name": "Package Lockers", "icon": "📦", "description": "24/7 secure delivery" },
+      { "name": "EV Charging", "icon": "⚡", "description": "Electric vehicle stations" }
+    ]
+  },
+
+  "floorplans": {
+    "title": "Our Floor Plans",
+    "description": "Spacious layouts designed for modern living",
+    "items": []
+  },
+
+  "contact": {
+    "title": "Get in Touch",
+    "description": "Ready to find your new home? Contact us today to schedule a tour."
+  },
+
+  "cta": {
+    "title": "Ready to Make Pinecrest Home?",
+    "description": "Schedule a tour today and discover your perfect townhome."
+  }
+}

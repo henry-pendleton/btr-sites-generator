@@ -1,0 +1,78 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: allSites
+  size: 1
+  alias: site
+permalink: "{{ site.slug }}/index.html"
+---
+
+{# Hero Section #}
+{% set heroImage = site.content.hero.heroImage %}
+{% set eyebrow = site.content.hero.eyebrow %}
+{% set headline = site.content.hero.headline %}
+{% set subheadline = site.content.hero.subheadline %}
+{% set buttons = site.content.hero.buttons %}
+{% include "components/hero.njk" %}
+
+{# About Section #}
+{% if site.content.about %}
+<section class="section section-about">
+  <div class="container">
+    <h2 class="section-title">{{ site.content.about.title | default('Welcome to ' + site.name) }}</h2>
+    <p class="section-description">{{ site.content.about.description }}</p>
+  </div>
+</section>
+{% endif %}
+
+{# Features/Amenities Preview #}
+{% if site.content.amenities %}
+<section class="section section-amenities" style="background-color: var(--color-primary);">
+  <div class="container">
+    <h2 class="section-title section-title-light">{{ site.content.amenities.title | default('Community Amenities') }}</h2>
+    <div class="amenities-grid">
+      {% for amenity in site.content.amenities.items | slice(0, 6) %}
+        <div class="amenity-card">
+          {% if amenity.icon %}
+            <span class="amenity-icon">{{ amenity.icon }}</span>
+          {% endif %}
+          <h3 class="amenity-name">{{ amenity.name }}</h3>
+          {% if amenity.description %}
+            <p class="amenity-description">{{ amenity.description }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    <a href="/{{ site.slug }}/amenities" class="section-cta">View All Amenities</a>
+  </div>
+</section>
+{% endif %}
+
+{# Floor Plans Preview #}
+{% if site.engrain.communityId %}
+<section class="section section-floorplans">
+  <div class="container">
+    <h2 class="section-title">{{ site.content.floorplans.title | default('Our Floor Plans') }}</h2>
+    <p class="section-description">{{ site.content.floorplans.description | default('Find your perfect home') }}</p>
+
+    {# Engrain will populate this via JS #}
+    <div id="floorplans-preview" class="floorplans-grid">
+      <p class="loading">Loading floor plans...</p>
+    </div>
+
+    <a href="/{{ site.slug }}/floorplans" class="section-cta">View All Floor Plans</a>
+  </div>
+</section>
+{% endif %}
+
+{# CTA Section #}
+<section class="section section-cta-block" style="background-color: var(--color-secondary);">
+  <div class="container text-center">
+    <h2 class="section-title">{{ site.content.cta.title | default('Ready to Find Your New Home?') }}</h2>
+    <p class="section-description">{{ site.content.cta.description | default('Schedule a tour today and see why residents love living here.') }}</p>
+    <div class="cta-buttons">
+      <a href="/{{ site.slug }}/contact" class="btn btn-primary">Schedule a Tour</a>
+      <a href="tel:{{ site.contact.phone | replace('(', '') | replace(')', '') | replace('-', '') | replace(' ', '') }}" class="btn btn-outline">Call Us: {{ site.contact.phone | formatPhone }}</a>
+    </div>
+  </div>
+</section>
