@@ -1,0 +1,63 @@
+{
+  "name": "Surf Side",
+  "slug": "surf-side",
+  "domain": "surf-side.vercel.app",
+  "description": "Live well at Surf Side",
+
+  "branding": {
+    "primaryColor": "#56996D",
+    "primaryDark": "#3d7a54",
+    "secondaryColor": "#BFE8F5",
+    "backgroundColor": "#ffffff",
+    "textColor": "#1f2937",
+    "logo": "/sites/surf-side/assets/logo.svg",
+    "logoDark": "/sites/surf-side/assets/logo-dark.svg",
+    "favicon": "/sites/surf-side/assets/favicon.ico"
+  },
+
+  "contact": {
+    "phone": "(123) 456-7890",
+    "email": "henry.pendleton@maymonthomes.com",
+    "address": "123 Surf Side Rd.",
+    "city": "Charleston",
+    "state": "SC",
+    "zip": "12345",
+    "latitude": 32.7765,
+    "longitude": -79.9311,
+    "mapUrl": "https://maps.google.com/?q=123+Surf+Side+Rd+Charleston+SC"
+  },
+
+  "engrain": {
+    "communityId": "12345",
+    "apiKey": ""
+  },
+
+  "nav": [
+    { "label": "Floor Plans", "href": "/surf-side/floorplans" },
+    { "label": "Amenities", "href": "/surf-side/amenities" },
+    { "label": "Neighborhood", "href": "/surf-side/neighborhood" },
+    { "label": "Contact", "href": "/surf-side/contact" }
+  ],
+
+  "cta": {
+    "label": "Apply Now",
+    "href": "/surf-side/apply"
+  },
+
+  "officeHours": [
+    { "days": "Mon-Fri", "hours": "9am - 6pm" },
+    { "days": "Saturday", "hours": "10am - 5pm" },
+    { "days": "Sunday", "hours": "12pm - 5pm" }
+  ],
+
+  "seo": {
+    "title": "Surf Side | Live Well in Charleston, SC",
+    "description": "Live well at Surf Side. Enjoy resort-style amenities, beach access, and a prime Charleston location. Schedule your tour today!",
+    "keywords": ["charleston rentals", "surf side charleston", "homes for rent charleston sc"]
+  },
+
+  "social": {
+    "facebook": "https://facebook.com/surfsidecharleston",
+    "instagram": "https://instagram.com/surfsidecharleston"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "hero": {
+    "eyebrow": "NOW LEASING",
+    "headline": "Welcome to Surf Side",
+    "subheadline": "Live well at Surf Side in beautiful Charleston, SC",
+    "heroImage": "",
+    "buttons": [
+      { "label": "Schedule a Tour", "href": "/surf-side/contact", "variant": "primary" },
+      { "label": "View Floor Plans", "href": "/surf-side/floorplans", "variant": "outline" }
+    ]
+  },
+
+  "about": {
+    "title": "Live Well at Surf Side",
+    "description": "Surf Side offers the perfect blend of coastal living, comfort, and community. Enjoy modern homes with premium finishes, beach access, and resort-style amenities just steps from the best of Charleston, SC."
+  },
+
+  "amenities": {
+    "title": "Premium Amenities",
+    "description": "Experience resort-style living with our extensive amenity package.",
+    "items": [
+      { "name": "Fitness Center", "icon": "💪", "description": "State-of-the-art equipment" },
+      { "name": "Pool", "icon": "🏊", "description": "Resort-style pool area" },
+      { "name": "Beach Access", "icon": "🏖️", "description": "Direct beach access" },
+      { "name": "Dog Friendly", "icon": "🐕", "description": "Pet-friendly community" }
+    ]
+  },
+
+  "floorplans": {
+    "title": "Our Floor Plans",
+    "description": "Spacious layouts designed for coastal living",
+    "items": []
+  },
+
+  "contact": {
+    "title": "Get in Touch",
+    "description": "Ready to find your new home? Contact us today to schedule a tour."
+  },
+
+  "cta": {
+    "title": "Ready to Make Surf Side Home?",
+    "description": "Schedule a tour today and discover your perfect home by the water."
+  }
+}
