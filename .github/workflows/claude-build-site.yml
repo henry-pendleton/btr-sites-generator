@@ -14,6 +14,7 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+      id-token: write  # Required for OIDC
 
     steps:
       - name: Checkout repository
@@ -28,61 +29,65 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Parse Issue and Build Site
-        uses: anthropics/claude-code-action@v1
+      # AWS OIDC Authentication (recommended for SSO environments)
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          prompt: |
-            A new site build has been requested via GitHub Issue #${{ github.event.issue.number }}.
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: claude-site-builder
+          aws-region: us-east-1
 
-            ## Issue Title
-            ${{ github.event.issue.title }}
+      - name: Install Claude Code
+        run: |
+          curl -fsSL https://claude.ai/install.sh | bash
+          echo "$HOME/.claude/bin" >> $GITHUB_PATH
 
-            ## Issue Body
-            ${{ github.event.issue.body }}
+      - name: Build Site with Claude
+        env:
+          CLAUDE_CODE_USE_BEDROCK: "1"
+          AWS_REGION: us-east-1
+          ANTHROPIC_MODEL: "us.anthropic.claude-sonnet-4-6-20250514-v1:0"
+        run: |
+          claude -p "
+          A new site build has been requested via GitHub Issue #${{ github.event.issue.number }}.
 
-            ## Your Task
+          ## Issue Title
+          ${{ github.event.issue.title }}
 
-            1. Parse the issue body to extract site configuration:
-               - Site Name
-               - Site Slug (lowercase, no spaces, used for folder name and URLs)
-               - Primary Color (hex)
-               - Secondary Color (hex, optional)
-               - Phone Number
-               - Email
-               - Address, City, State, ZIP
-               - Engrain Community ID (optional)
-               - Any other provided fields
+          ## Issue Body
+          ${{ github.event.issue.body }}
 
-            2. Create the site folder and files:
-               - Create `sites/{slug}/config.json` with the site configuration
-               - Create `sites/{slug}/content.json` with default content (hero, about, amenities, etc.)
-               - Use the example-site as a reference for the structure
+          ## Your Task
 
-            3. IMPORTANT: Only create/modify files in the `sites/` directory. Never modify templates or other files.
+          1. Parse the issue body to extract site configuration:
+             - Site Name
+             - Site Slug (lowercase, no spaces, used for folder name and URLs)
+             - Primary Color (hex)
+             - Secondary Color (hex, optional)
+             - Phone Number
+             - Email
+             - Address, City, State, ZIP
+             - Any other provided fields
 
-            4. After creating the files, commit the changes with message: "Add new site: {site name}"
+          2. Create the site folder and files:
+             - Create sites/{slug}/config.json with the site configuration (use sites/pinecrest/config.json as reference)
+             - Create sites/{slug}/content.json with default content (use sites/pinecrest/content.json as reference)
+             - Create sites/{slug}/assets/ folder
+             - Create a simple logo.svg and logo-dark.svg with the site name
 
-            5. Comment on the issue with the result:
-               - If successful: List the files created and the site slug
-               - If failed: Explain what information is missing or what went wrong
+          3. IMPORTANT: Only create/modify files in the sites/ directory. Never modify templates or src/ files.
 
-          allowed_tools: "Read,Write,Bash(git add *),Bash(git commit *),Bash(git push *)"
-          max_turns: 10
+          4. After creating the files, stage and commit the changes with message: 'Add new site: {site name}'
+
+          5. Push the changes to the repository.
+          " \
+          --allowedTools "Read,Write,Bash(git add *),Bash(git commit *),Bash(git push *),Bash(mkdir *)" \
+          --max-turns 15
 
       - name: Build all sites
         run: npm run build
 
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        if: success()
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: "--prod"
-
-      - name: Update Issue with Deploy URL
+      - name: Comment on Issue - Success
         if: success()
         uses: actions/github-script@v7
         with:
@@ -91,17 +96,17 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## Site Deployed! 🎉\n\nYour site has been built and deployed.\n\n**Preview URL:** Check your Vercel dashboard for the deployment URL.\n\n**Next Steps:**\n1. Review the site at the preview URL\n2. Configure a custom domain if needed\n3. Close this issue when complete`
+              body: `## Site Created! ✅\n\nClaude has created the site configuration.\n\n**Next Steps:**\n1. Review the generated files in the \`sites/\` folder\n2. Set up Vercel deployment if needed\n3. Close this issue when complete`
             })
 
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['deployed']
+              labels: ['site-created']
             })
 
-      - name: Handle Failure
+      - name: Comment on Issue - Failure
         if: failure()
         uses: actions/github-script@v7
         with:
@@ -110,7 +115,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## Build Failed ❌\n\nThe site build encountered an error. Please check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.\n\nCommon issues:\n- Missing required fields in the issue\n- Invalid color format (use hex like #2a5d4f)\n- Slug already exists`
+              body: `## Build Failed ❌\n\nThe site build encountered an error. Please check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.\n\nCommon issues:\n- Missing required fields in the issue\n- Invalid color format (use hex like #2a5d4f)\n- AWS OIDC role not configured`
             })
 
             github.rest.issues.addLabels({
