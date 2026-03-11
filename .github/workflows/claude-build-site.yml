@@ -14,7 +14,6 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
-      id-token: write  # Required for OIDC
 
     steps:
       - name: Checkout repository
@@ -29,14 +28,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # AWS OIDC Authentication (recommended for SSO environments)
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          role-session-name: claude-site-builder
-          aws-region: us-east-1
-
       - name: Install Claude Code
         run: |
           curl -fsSL https://claude.ai/install.sh | bash
@@ -44,9 +35,7 @@ jobs:
 
       - name: Build Site with Claude
         env:
-          CLAUDE_CODE_USE_BEDROCK: "1"
-          AWS_REGION: us-east-1
-          ANTHROPIC_MODEL: "us.anthropic.claude-sonnet-4-6-20250514-v1:0"
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           claude -p "
           A new site build has been requested via GitHub Issue #${{ github.event.issue.number }}.
@@ -115,7 +104,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## Build Failed ❌\n\nThe site build encountered an error. Please check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.\n\nCommon issues:\n- Missing required fields in the issue\n- Invalid color format (use hex like #2a5d4f)\n- AWS OIDC role not configured`
+              body: `## Build Failed ❌\n\nThe site build encountered an error. Please check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.\n\nCommon issues:\n- Missing required fields in the issue\n- Invalid color format (use hex like #2a5d4f)\n- ANTHROPIC_API_KEY secret not configured`
             })
 
             github.rest.issues.addLabels({
