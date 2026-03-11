@@ -3,7 +3,7 @@
     "eyebrow": "NOW LEASING",
     "headline": "Welcome to Pinecrest",
     "subheadline": "Modern townhome living starting at $1,850/month",
-    "heroImage": "/sites/example-site/assets/hero.jpg",
+    "heroImage": "",
     "buttons": [
       { "label": "Schedule a Tour", "href": "/pinecrest/contact", "variant": "primary" },
       { "label": "View Floor Plans", "href": "/pinecrest/floorplans", "variant": "outline" }

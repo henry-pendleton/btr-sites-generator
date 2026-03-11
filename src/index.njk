@@ -31,7 +31,7 @@ permalink: "{{ site.slug }}/index.html"
   <div class="container">
     <h2 class="section-title section-title-light">{{ site.content.amenities.title | default('Community Amenities') }}</h2>
     <div class="amenities-grid">
-      {% for amenity in site.content.amenities.items | slice(0, 6) %}
+      {% for amenity in site.content.amenities.items %}
         <div class="amenity-card">
           {% if amenity.icon %}
             <span class="amenity-icon">{{ amenity.icon }}</span>
@@ -49,21 +49,54 @@ permalink: "{{ site.slug }}/index.html"
 {% endif %}
 
 {# Floor Plans Preview #}
-{% if site.engrain.communityId %}
 <section class="section section-floorplans">
   <div class="container">
     <h2 class="section-title">{{ site.content.floorplans.title | default('Our Floor Plans') }}</h2>
     <p class="section-description">{{ site.content.floorplans.description | default('Find your perfect home') }}</p>
 
-    {# Engrain will populate this via JS #}
-    <div id="floorplans-preview" class="floorplans-grid">
-      <p class="loading">Loading floor plans...</p>
+    <div class="floorplans-grid">
+      {# Static floor plan cards for demo #}
+      <div class="floorplan-card">
+        <div class="floorplan-image" style="background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%); height: 160px;"></div>
+        <div class="floorplan-details">
+          <h3 class="floorplan-name">The Maple</h3>
+          <div class="floorplan-specs">
+            <span>2 Bed</span>
+            <span>2 Bath</span>
+            <span>1,200 sq ft</span>
+          </div>
+          <p class="floorplan-price">From $1,850/mo</p>
+        </div>
+      </div>
+      <div class="floorplan-card">
+        <div class="floorplan-image" style="background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%); height: 160px;"></div>
+        <div class="floorplan-details">
+          <h3 class="floorplan-name">The Oak</h3>
+          <div class="floorplan-specs">
+            <span>3 Bed</span>
+            <span>2.5 Bath</span>
+            <span>1,550 sq ft</span>
+          </div>
+          <p class="floorplan-price">From $2,150/mo</p>
+        </div>
+      </div>
+      <div class="floorplan-card">
+        <div class="floorplan-image" style="background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%); height: 160px;"></div>
+        <div class="floorplan-details">
+          <h3 class="floorplan-name">The Cedar</h3>
+          <div class="floorplan-specs">
+            <span>3 Bed</span>
+            <span>3 Bath</span>
+            <span>1,800 sq ft</span>
+          </div>
+          <p class="floorplan-price">From $2,450/mo</p>
+        </div>
+      </div>
     </div>
 
     <a href="/{{ site.slug }}/floorplans" class="section-cta">View All Floor Plans</a>
   </div>
 </section>
-{% endif %}
 
 {# CTA Section #}
 <section class="section section-cta-block" style="background-color: var(--color-secondary);">

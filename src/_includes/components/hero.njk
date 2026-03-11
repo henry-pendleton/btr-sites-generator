@@ -1,5 +1,5 @@
 <section class="hero" {% if heroImage %}style="background-image: url('{{ heroImage }}');"{% endif %}>
-  <div class="hero-overlay"></div>
+  <div class="hero-overlay" {% if not heroImage %}style="background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);"{% endif %}></div>
   <div class="hero-content">
     {% if eyebrow %}
       <span class="hero-eyebrow">{{ eyebrow }}</span>
