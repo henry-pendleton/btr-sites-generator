@@ -38,40 +38,22 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           claude -p "
-          A new site build has been requested via GitHub Issue #${{ github.event.issue.number }}.
+          Create a new BTR site from this GitHub Issue. Read sites/pinecrest/ as reference, then create the new site.
 
-          ## Issue Title
-          ${{ github.event.issue.title }}
-
-          ## Issue Body
+          ## Issue Data
           ${{ github.event.issue.body }}
 
-          ## Your Task
+          ## Instructions
+          1. Read sites/pinecrest/config.json and sites/pinecrest/content.json as templates
+          2. Create sites/{slug}/config.json with site data from issue (name, slug, colors, contact, etc)
+          3. Create sites/{slug}/content.json with default content (copy pinecrest structure, update text)
+          4. Create sites/{slug}/assets/logo.svg and logo-dark.svg (simple text SVGs with site name)
+          5. Run: git add sites/ && git commit -m 'Add new site: {name}' && git push
 
-          1. Parse the issue body to extract site configuration:
-             - Site Name
-             - Site Slug (lowercase, no spaces, used for folder name and URLs)
-             - Primary Color (hex)
-             - Secondary Color (hex, optional)
-             - Phone Number
-             - Email
-             - Address, City, State, ZIP
-             - Any other provided fields
-
-          2. Create the site folder and files:
-             - Create sites/{slug}/config.json with the site configuration (use sites/pinecrest/config.json as reference)
-             - Create sites/{slug}/content.json with default content (use sites/pinecrest/content.json as reference)
-             - Create sites/{slug}/assets/ folder
-             - Create a simple logo.svg and logo-dark.svg with the site name
-
-          3. IMPORTANT: Only create/modify files in the sites/ directory. Never modify templates or src/ files.
-
-          4. After creating the files, stage and commit the changes with message: 'Add new site: {site name}'
-
-          5. Push the changes to the repository.
+          Only modify files in sites/ directory. Be efficient - minimize tool calls.
           " \
-          --allowedTools "Read,Write,Bash(git add *),Bash(git commit *),Bash(git push *),Bash(mkdir *)" \
-          --max-turns 15
+          --allowedTools "Read,Write,Bash(git *),Bash(mkdir *)" \
+          --max-turns 25
 
       - name: Build all sites
         run: npm run build
